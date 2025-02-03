@@ -124,6 +124,7 @@ my %params = (
     'CIPHER_PARAM_NUM' =>                  "num",         # uint
     'CIPHER_PARAM_ROUNDS' =>               "rounds",      # uint
     'CIPHER_PARAM_AEAD_TAG' =>             "tag",         # octet_string
+    'CIPHER_PARAM_PIPELINE_AEAD_TAG' =>    "pipeline-tag",# octet_ptr
     'CIPHER_PARAM_AEAD_TLS1_AAD' =>        "tlsaad",      # octet_string
     'CIPHER_PARAM_AEAD_TLS1_AAD_PAD' =>    "tlsaadpad",   # size_t
     'CIPHER_PARAM_AEAD_TLS1_IV_FIXED' =>   "tlsivfixed",  # octet_string
@@ -302,6 +303,9 @@ my %params = (
     'PKEY_PARAM_DIST_ID' =>             "distid",
     'PKEY_PARAM_PUB_KEY' =>             "pub",
     'PKEY_PARAM_PRIV_KEY' =>            "priv",
+    # PKEY_PARAM_IMPLICIT_REJECTION isn't actually used, or meaningful.  We keep
+    # it for API stability, but please use ASYM_CIPHER_PARAM_IMPLICIT_REJECTION
+    # instead.
     'PKEY_PARAM_IMPLICIT_REJECTION' =>  "implicit-rejection",
     'PKEY_PARAM_FIPS_DIGEST_CHECK' =>   "digest-check",
     'PKEY_PARAM_FIPS_KEY_CHECK' =>      "key-check",

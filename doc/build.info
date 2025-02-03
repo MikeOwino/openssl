@@ -1579,6 +1579,10 @@ DEPEND[html/man3/OPENSSL_load_builtin_modules.html]=man3/OPENSSL_load_builtin_mo
 GENERATE[html/man3/OPENSSL_load_builtin_modules.html]=man3/OPENSSL_load_builtin_modules.pod
 DEPEND[man/man3/OPENSSL_load_builtin_modules.3]=man3/OPENSSL_load_builtin_modules.pod
 GENERATE[man/man3/OPENSSL_load_builtin_modules.3]=man3/OPENSSL_load_builtin_modules.pod
+DEPEND[html/man3/OPENSSL_load_u16_le.html]=man3/OPENSSL_load_u16_le.pod
+GENERATE[html/man3/OPENSSL_load_u16_le.html]=man3/OPENSSL_load_u16_le.pod
+DEPEND[man/man3/OPENSSL_load_u16_le.3]=man3/OPENSSL_load_u16_le.pod
+GENERATE[man/man3/OPENSSL_load_u16_le.3]=man3/OPENSSL_load_u16_le.pod
 DEPEND[html/man3/OPENSSL_malloc.html]=man3/OPENSSL_malloc.pod
 GENERATE[html/man3/OPENSSL_malloc.html]=man3/OPENSSL_malloc.pod
 DEPEND[man/man3/OPENSSL_malloc.3]=man3/OPENSSL_malloc.pod
@@ -1787,6 +1791,10 @@ DEPEND[html/man3/OSSL_PARAM_int.html]=man3/OSSL_PARAM_int.pod
 GENERATE[html/man3/OSSL_PARAM_int.html]=man3/OSSL_PARAM_int.pod
 DEPEND[man/man3/OSSL_PARAM_int.3]=man3/OSSL_PARAM_int.pod
 GENERATE[man/man3/OSSL_PARAM_int.3]=man3/OSSL_PARAM_int.pod
+DEPEND[html/man3/OSSL_PARAM_print_to_bio.html]=man3/OSSL_PARAM_print_to_bio.pod
+GENERATE[html/man3/OSSL_PARAM_print_to_bio.html]=man3/OSSL_PARAM_print_to_bio.pod
+DEPEND[man/man3/OSSL_PARAM_print_to_bio.3]=man3/OSSL_PARAM_print_to_bio.pod
+GENERATE[man/man3/OSSL_PARAM_print_to_bio.3]=man3/OSSL_PARAM_print_to_bio.pod
 DEPEND[html/man3/OSSL_PROVIDER.html]=man3/OSSL_PROVIDER.pod
 GENERATE[html/man3/OSSL_PROVIDER.html]=man3/OSSL_PROVIDER.pod
 DEPEND[man/man3/OSSL_PROVIDER.3]=man3/OSSL_PROVIDER.pod
@@ -3398,6 +3406,7 @@ html/man3/OPENSSL_init_crypto.html \
 html/man3/OPENSSL_init_ssl.html \
 html/man3/OPENSSL_instrument_bus.html \
 html/man3/OPENSSL_load_builtin_modules.html \
+html/man3/OPENSSL_load_u16_le.html \
 html/man3/OPENSSL_malloc.html \
 html/man3/OPENSSL_riscvcap.html \
 html/man3/OPENSSL_s390xcap.html \
@@ -3450,6 +3459,7 @@ html/man3/OSSL_PARAM_BLD.html \
 html/man3/OSSL_PARAM_allocate_from_text.html \
 html/man3/OSSL_PARAM_dup.html \
 html/man3/OSSL_PARAM_int.html \
+html/man3/OSSL_PARAM_print_to_bio.html \
 html/man3/OSSL_PROVIDER.html \
 html/man3/OSSL_QUIC_client_method.html \
 html/man3/OSSL_SELF_TEST_new.html \
@@ -4061,6 +4071,7 @@ man/man3/OPENSSL_init_crypto.3 \
 man/man3/OPENSSL_init_ssl.3 \
 man/man3/OPENSSL_instrument_bus.3 \
 man/man3/OPENSSL_load_builtin_modules.3 \
+man/man3/OPENSSL_load_u16_le.3 \
 man/man3/OPENSSL_malloc.3 \
 man/man3/OPENSSL_riscvcap.3 \
 man/man3/OPENSSL_s390xcap.3 \
@@ -4113,6 +4124,7 @@ man/man3/OSSL_PARAM_BLD.3 \
 man/man3/OSSL_PARAM_allocate_from_text.3 \
 man/man3/OSSL_PARAM_dup.3 \
 man/man3/OSSL_PARAM_int.3 \
+man/man3/OSSL_PARAM_print_to_bio.3 \
 man/man3/OSSL_PROVIDER.3 \
 man/man3/OSSL_QUIC_client_method.3 \
 man/man3/OSSL_SELF_TEST_new.3 \

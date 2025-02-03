@@ -763,7 +763,8 @@ static int test_client_hello_cb(void)
 
     /* The gimpy cipher list we configure can't do TLS 1.3. */
     SSL_CTX_set_max_proto_version(cctx, TLS1_2_VERSION);
-
+    /* Avoid problems where the default seclevel has been changed */
+    SSL_CTX_set_security_level(cctx, 2);
     if (!TEST_true(SSL_CTX_set_cipher_list(cctx,
                         "AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384"))
             || !TEST_true(create_ssl_objects(sctx, cctx, &serverssl,
@@ -9772,6 +9773,52 @@ static int test_unknown_sigalgs_groups(void)
     return ret;
 }
 
+static int test_configuration_of_groups(void)
+{
+    int ret = 0;
+    SSL_CTX *ctx = NULL;
+#if (!defined(OPENSSL_NO_EC) || !defined(OPENSSL_NO_DH))
+    size_t default_groups_len;
+#endif
+
+    if (!TEST_ptr(ctx = SSL_CTX_new_ex(libctx, NULL, TLS_server_method())))
+        goto end;
+
+#if (!defined(OPENSSL_NO_EC) || !defined(OPENSSL_NO_DH))
+    default_groups_len = ctx->ext.supported_groups_default_len;
+
+    if (!TEST_size_t_gt(default_groups_len, 0)
+        || !TEST_int_gt(SSL_CTX_set1_groups_list(ctx, "DEFAULT"), 0)
+        || !TEST_size_t_eq(ctx->ext.supportedgroups_len, default_groups_len))
+        goto end;
+#endif
+
+#if (!defined(OPENSSL_NO_EC) || !defined(OPENSSL_NO_DH))
+    if (!TEST_int_gt(SSL_CTX_set1_groups_list(ctx, "DEFAULT:-?P-256"), 0)
+# if !defined(OPENSSL_NO_EC)
+        || !TEST_size_t_eq(ctx->ext.supportedgroups_len, default_groups_len - 1)
+# else
+        || !TEST_size_t_eq(ctx->ext.supportedgroups_len, default_groups_len)
+# endif
+        )
+        goto end;
+#endif
+
+#if !defined(OPENSSL_NO_EC)
+    if (!TEST_int_gt(SSL_CTX_set1_groups_list(ctx, "?P-256:?P-521:-?P-256"), 0)
+        || !TEST_size_t_eq(ctx->ext.supportedgroups_len, 1)
+        || !TEST_int_eq(ctx->ext.supportedgroups[0], OSSL_TLS_GROUP_ID_secp521r1)
+        )
+        goto end;
+#endif
+
+    ret = 1;
+
+end:
+    SSL_CTX_free(ctx);
+    return ret;
+}
+
 #if !defined(OPENSSL_NO_EC) \
     && (!defined(OSSL_NO_USABLE_TLS1_3) || !defined(OPENSSL_NO_TLS1_2))
 /*
@@ -9998,7 +10045,7 @@ static int create_cert_key(int idx, char *certfilename, char *privkeyfilename)
     int ret = 1;
 
     if (!TEST_ptr(evpctx)
-        || !TEST_true(EVP_PKEY_keygen_init(evpctx))
+        || !TEST_int_gt(EVP_PKEY_keygen_init(evpctx), 0)
         || !TEST_true(EVP_PKEY_generate(evpctx, &pkey))
         || !TEST_ptr(pkey)
         || !TEST_ptr(x509)
@@ -12147,6 +12194,7 @@ static int npn_advert_cb(SSL *ssl, const unsigned char **out,
         return SSL_TLSEXT_ERR_OK;
 
     case 1:
+        *out = NULL;
         *outlen = 0;
         return SSL_TLSEXT_ERR_OK;
 
@@ -12627,6 +12675,7 @@ int setup_tests(void)
 #endif
     ADD_ALL_TESTS(test_servername, 10);
     ADD_TEST(test_unknown_sigalgs_groups);
+    ADD_TEST(test_configuration_of_groups);
 #if !defined(OPENSSL_NO_EC) \
     && (!defined(OSSL_NO_USABLE_TLS1_3) || !defined(OPENSSL_NO_TLS1_2))
     ADD_ALL_TESTS(test_sigalgs_available, 6);
